@@ -71,8 +71,8 @@ func NewClient(options ...ClientOption) *Client {
 
 // RawRequest performs a raw request. It is the caller's responsibility to
 // interpret the []byte returned.
-func (c *Client) RawRequest(ctx context.Context, time TimeStringer, parameter ParameterStringer, location LocationStringer, format FormatStringer, options *RequestOptions) ([]byte, error) {
-	urlStr := fmt.Sprintf("%s/%s/%s/%s/%s", c.baseURL, time.TimeString(), parameter.ParameterString(), location.LocationString(), format.FormatString())
+func (c *Client) RawRequest(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, fs FormatStringer, options *RequestOptions) ([]byte, error) {
+	urlStr := fmt.Sprintf("%s/%s/%s/%s/%s", c.baseURL, ts.TimeString(), ps.ParameterString(), ls.LocationString(), fs.FormatString())
 	if values := options.Values(); values != nil {
 		urlStr += "?" + values.Encode()
 	}
@@ -82,7 +82,7 @@ func (c *Client) RawRequest(ctx context.Context, time TimeStringer, parameter Pa
 		return nil, err
 	}
 	req = req.WithContext(ctx)
-	req.Header.Set("Accept", format.ContentType())
+	req.Header.Set("Accept", fs.ContentType())
 	for _, f := range c.preRequestFuncs {
 		f(req)
 	}

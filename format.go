@@ -24,7 +24,7 @@ var (
 	}
 	FormatCSV = Format{
 		formatString: "csv",
-		contentType:  "application/csv", // FIXME check content type
+		contentType:  "text/csv",
 	}
 	FormatHTML = Format{
 		formatString: "html",
@@ -32,15 +32,15 @@ var (
 	}
 	FormatHTMLMap = Format{
 		formatString: "html-map",
-		contentType:  "application/html-map", // FIXME check content type
+		contentType:  "text/html",
 	}
 	FormatJSON = Format{
 		formatString: "json",
-		contentType:  "application/json", // FIXME check content type
+		contentType:  "application/json",
 	}
 	FormatNetCDF = Format{
 		formatString: "netcdf",
-		contentType:  "application/netcdf", // FIXME check content type
+		contentType:  "application/x-netcdf4", // FIXME check content type
 	}
 	FormatPNG = Format{
 		formatString: "png",
@@ -48,7 +48,7 @@ var (
 	}
 	FormatXML = Format{
 		formatString: "xml",
-		contentType:  "application/xml", // FIXME check content type
+		contentType:  "application/xml",
 	}
 )
 

@@ -94,6 +94,7 @@ func (p Polyline) LocationString() LocationString {
 	return LocationString(b.String())
 }
 
+// A RectangleN is a rectangle with a number of points.
 type RectangleN struct {
 	Min  Point
 	Max  Point

@@ -8,7 +8,44 @@ import (
 	"github.com/twpayne/go-meteomatics"
 )
 
-func ExampleNewClient_simple() {
+func ExampleClient_CSVRegionRequest() {
+	client := meteomatics.NewClient(
+		meteomatics.WithBasicAuth(
+			os.Getenv("METEOMATICS_USERNAME"),
+			os.Getenv("METEOMATICS_PASSWORD"),
+		),
+	)
+
+	crr, err := client.CSVRegionRequest(
+		context.Background(),
+		meteomatics.TimeNow,
+		meteomatics.ParameterString("t_2m:C"),
+		meteomatics.RectangleN{
+			Min: meteomatics.Point{
+				Lat: -90,
+				Lon: -180,
+			},
+			Max: meteomatics.Point{
+				Lat: 90,
+				Lon: 180,
+			},
+			NLat: 10,
+			NLon: 10,
+		},
+		nil,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(crr.Parameter)
+
+	// Output:
+	// t_2m:C
+}
+
+func ExampleClient_JSONRequest() {
 	client := meteomatics.NewClient(
 		meteomatics.WithBasicAuth(
 			os.Getenv("METEOMATICS_USERNAME"),

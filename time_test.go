@@ -33,9 +33,7 @@ func TestTimeString(t *testing.T) {
 			expected: "2017-05-28T13:00:00ZP10D:PT1H",
 		},
 		{
-			ts: TimePoint{
-				Time: time.Date(2015, 1, 20, 18, 0, 0, 0, time.UTC),
-			},
+			ts:       Time(time.Date(2015, 1, 20, 18, 0, 0, 0, time.UTC)),
 			expected: "2015-01-20T18:00:00Z",
 		},
 		{
@@ -48,23 +46,15 @@ func TestTimeString(t *testing.T) {
 		},
 		{
 			ts: TimeSlice{
-				TimePoint{
-					Time: time.Date(2018, 10, 20, 18, 0, 0, 0, time.UTC),
-				},
-				TimePoint{
-					Time: time.Date(2018, 10, 21, 18, 0, 0, 0, time.UTC),
-				},
-				TimePoint{
-					Time: time.Date(2018, 10, 22, 18, 0, 0, 0, time.UTC),
-				},
+				Time(time.Date(2018, 10, 20, 18, 0, 0, 0, time.UTC)),
+				Time(time.Date(2018, 10, 21, 18, 0, 0, 0, time.UTC)),
+				Time(time.Date(2018, 10, 22, 18, 0, 0, 0, time.UTC)),
 			},
 			expected: "2018-10-20T18:00:00Z,2018-10-21T18:00:00Z,2018-10-22T18:00:00Z",
 		},
 		{
 			ts: TimeSlice{
-				TimePoint{
-					Time: time.Date(2018, 10, 20, 18, 0, 0, 0, time.UTC),
-				},
+				Time(time.Date(2018, 10, 20, 18, 0, 0, 0, time.UTC)),
 				TimePeriod{
 					Start:    time.Date(2018, 10, 21, 18, 0, 0, 0, time.UTC),
 					Duration: 2 * time.Hour,

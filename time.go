@@ -40,14 +40,12 @@ func (p TimePeriod) TimeString() TimeString {
 		":P" + formatDuration(p.Step))
 }
 
-// A TimePoint is a point in time.
-type TimePoint struct {
-	time.Time
-}
+// A Time is a time.
+type Time time.Time
 
-// TimeString returns p as a TimeString.
-func (p TimePoint) TimeString() TimeString {
-	return TimeString(formatTime(p.Time))
+// TimeString returns t as a TimeString.
+func (t Time) TimeString() TimeString {
+	return TimeString(formatTime(time.Time(t)))
 }
 
 // A TimeRange is a range of times.
