@@ -28,10 +28,17 @@ func ExampleNewClient_simple() {
 		),
 	)
 
-	jr, err := client.JSONRequest(
+	cr, err := client.CSVRequest(
 		context.Background(),
-		meteomatics.TimeNow,
-		meteomatics.ParameterString("t_2m:C"),
+		meteomatics.TimeSlice{
+			meteomatics.TimeNow,
+			meteomatics.NowOffset(1 * time.Hour),
+		},
+		meteomatics.Parameter{
+			Name:  meteomatics.ParameterTemperature,
+			Level: meteomatics.LevelMeters(2),
+			Units: meteomatics.UnitsCelsius,
+		},
 		meteomatics.Postal{
 			CountryCode: "CH",
 			ZIPCode:     "9000",
@@ -43,20 +50,11 @@ func ExampleNewClient_simple() {
 		return
 	}
 
-	fmt.Println(jr.Status)
-	fmt.Println(jr.Version)
-	for _, data := range jr.Data {
-		fmt.Println(data.Parameter)
-		for _, coordinate := range data.Coordinates {
-			fmt.Println(coordinate.StationID)
-		}
+	fmt.Println(cr.Parameters)
+	for _, row := range cr.Rows {
+		fmt.Println(row.ValidDate)
+		fmt.Println(row.Values)
 	}
-
-	// Output:
-	// OK
-	// 3.0
-	// t_0m:C
-	// postal_CH9000
 }
 ```
 
