@@ -26,40 +26,48 @@ func (s TimeString) TimeString() TimeString {
 	return s
 }
 
+// A TimePeriod is a time period.
 type TimePeriod struct {
 	Start    time.Time
 	Duration time.Duration
 	Step     time.Duration
 }
 
+// TimeString returns p as a TimeString.
 func (p TimePeriod) TimeString() TimeString {
 	return TimeString(formatTime(p.Start) +
 		"P" + formatDuration(p.Duration) +
 		":P" + formatDuration(p.Step))
 }
 
+// A TimePoint is a point in time.
 type TimePoint struct {
 	time.Time
 }
 
+// TimeString returns p as a TimeString.
 func (p TimePoint) TimeString() TimeString {
 	return TimeString(formatTime(p.Time))
 }
 
+// A TimeRange is a range of times.
 type TimeRange struct {
 	Start time.Time
 	End   time.Time
 	Step  time.Duration
 }
 
+// TimeString returns r as a TimeString.
 func (r TimeRange) TimeString() TimeString {
 	return TimeString(formatTime(r.Start) +
 		"--" + formatTime(r.End) +
 		":P" + formatDuration(r.Step))
 }
 
+// A TimeSlice is a slice of TimeStringers.
 type TimeSlice []TimeStringer
 
+// TimeString returns s as a TimeString.
 func (s TimeSlice) TimeString() TimeString {
 	ss := make([]string, len(s))
 	for i, ts := range s {

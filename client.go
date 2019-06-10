@@ -1,3 +1,5 @@
+// Package meteomatics is a client library for the Meteomatics API. See
+// https://www.meteomatics.com/en/api/overview/.
 package meteomatics
 
 import (
@@ -9,10 +11,8 @@ import (
 	"strconv"
 )
 
-const (
-	// DefaultBaseURL is the default base URL.
-	DefaultBaseURL = "http://api.meteomatics.com"
-)
+// DefaultBaseURL is the default base URL.
+const DefaultBaseURL = "http://api.meteomatics.com"
 
 // A Client is a Client.
 type Client struct {
