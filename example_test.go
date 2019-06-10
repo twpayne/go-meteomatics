@@ -21,7 +21,7 @@ func ExampleClient_RequestCSV() {
 		),
 	)
 
-	cr, err := client.RequestCSV(
+	r, err := client.RequestCSV(
 		context.Background(),
 		meteomatics.TimeSlice{
 			meteomatics.TimeNow,
@@ -43,8 +43,8 @@ func ExampleClient_RequestCSV() {
 		return
 	}
 
-	fmt.Println(cr.Parameters)
-	for _, row := range cr.Rows {
+	fmt.Println(r.Parameters)
+	for _, row := range r.Rows {
 		fmt.Println(row.ValidDate)
 		fmt.Println(row.Values)
 	}
@@ -58,7 +58,7 @@ func ExampleClient_RequestCSVRegion() {
 		),
 	)
 
-	crr, err := client.RequestCSVRegion(
+	r, err := client.RequestCSVRegion(
 		context.Background(),
 		meteomatics.TimeNow,
 		meteomatics.Parameter{
@@ -85,9 +85,9 @@ func ExampleClient_RequestCSVRegion() {
 		return
 	}
 
-	fmt.Println(crr.Parameter)
-	fmt.Println(crr.Lats)
-	fmt.Println(crr.Lons)
+	fmt.Println(r.Parameter)
+	fmt.Println(r.Lats)
+	fmt.Println(r.Lons)
 
 	// Output:
 	// t_2m:C
@@ -103,7 +103,7 @@ func ExampleClient_RequestJSON() {
 		),
 	)
 
-	jr, err := client.RequestJSON(
+	r, err := client.RequestJSON(
 		context.Background(),
 		meteomatics.TimeNow,
 		meteomatics.Parameter{
@@ -122,9 +122,9 @@ func ExampleClient_RequestJSON() {
 		return
 	}
 
-	fmt.Println(jr.Status)
-	fmt.Println(jr.Version)
-	for _, data := range jr.Data {
+	fmt.Println(r.Status)
+	fmt.Println(r.Version)
+	for _, data := range r.Data {
 		fmt.Println(data.Parameter)
 		for _, coordinate := range data.Coordinates {
 			fmt.Println(coordinate.StationID)

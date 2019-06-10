@@ -15,7 +15,7 @@ func TestClientRequestCSV(t *testing.T) {
 		"/2016-01-20T13:35:00ZP1D:PT3H/t_2m:C,relative_humidity_2m:p/47.423336,9.377225/csv",
 		"testdata/temperature_and_relative_humidity_time_series.csv",
 	)
-	cr, err := NewClient(WithBaseURL(s.URL)).RequestCSV(
+	r, err := NewClient(WithBaseURL(s.URL)).RequestCSV(
 		context.Background(),
 		TimePeriod{
 			Start:    time.Date(2016, 1, 20, 13, 35, 0, 0, time.UTC),
@@ -41,12 +41,12 @@ func TestClientRequestCSV(t *testing.T) {
 		nil,
 	)
 	require.NoError(t, err)
-	assert.Equal(t, []ParameterString{"t_2m:C", "relative_humidity_2m:p"}, cr.Parameters)
-	assert.Equal(t, 9, len(cr.Rows))
-	assert.Equal(t, time.Date(2016, 1, 20, 13, 35, 0, 0, time.UTC), cr.Rows[0].ValidDate)
-	assert.Equal(t, []float64{-0.829, 99.2}, cr.Rows[0].Values)
-	assert.Equal(t, time.Date(2016, 1, 21, 13, 35, 0, 0, time.UTC), cr.Rows[8].ValidDate)
-	assert.Equal(t, []float64{-6.088, 100}, cr.Rows[8].Values)
+	assert.Equal(t, []ParameterString{"t_2m:C", "relative_humidity_2m:p"}, r.Parameters)
+	require.Len(t, r.Rows, 9)
+	assert.Equal(t, time.Date(2016, 1, 20, 13, 35, 0, 0, time.UTC), r.Rows[0].ValidDate)
+	assert.Equal(t, []float64{-0.829, 99.2}, r.Rows[0].Values)
+	assert.Equal(t, time.Date(2016, 1, 21, 13, 35, 0, 0, time.UTC), r.Rows[8].ValidDate)
+	assert.Equal(t, []float64{-6.088, 100}, r.Rows[8].Values)
 }
 
 func TestClientRequestCSVRegion(t *testing.T) {
@@ -55,7 +55,7 @@ func TestClientRequestCSVRegion(t *testing.T) {
 		"/2016-12-19T12:00:00Z/t_2m:C/90,-180_-90,180:10x10/csv",
 		"testdata/temperature_geographical_region.csv",
 	)
-	crr, err := NewClient(WithBaseURL(s.URL)).RequestCSVRegion(
+	r, err := NewClient(WithBaseURL(s.URL)).RequestCSVRegion(
 		context.Background(),
 		Time(time.Date(2016, 12, 19, 12, 00, 0, 0, time.UTC)),
 		Parameter{
@@ -78,14 +78,14 @@ func TestClientRequestCSVRegion(t *testing.T) {
 		nil,
 	)
 	require.NoError(t, err)
-	assert.Equal(t, time.Date(2016, 12, 19, 12, 0, 0, 0, time.UTC), crr.ValidDate)
-	assert.Equal(t, ParameterString("t_2m:C"), crr.Parameter)
-	assert.Equal(t, []float64{-180, -140, -100, -60, -20, 20, 60, 100, 140, 180}, crr.Lons)
-	assert.Equal(t, []float64{90, 70, 50, 30, 10, -10, -30, -50, -70, -90}, crr.Lats)
-	assert.Equal(t, -15.286, crr.Values[0][0])
-	assert.Equal(t, -15.286, crr.Values[0][9])
-	assert.Equal(t, -25.63, crr.Values[9][0])
-	assert.Equal(t, -25.63, crr.Values[9][9])
+	assert.Equal(t, time.Date(2016, 12, 19, 12, 0, 0, 0, time.UTC), r.ValidDate)
+	assert.Equal(t, ParameterString("t_2m:C"), r.Parameter)
+	assert.Equal(t, []float64{-180, -140, -100, -60, -20, 20, 60, 100, 140, 180}, r.Lons)
+	assert.Equal(t, []float64{90, 70, 50, 30, 10, -10, -30, -50, -70, -90}, r.Lats)
+	assert.Equal(t, -15.286, r.Values[0][0])
+	assert.Equal(t, -15.286, r.Values[0][9])
+	assert.Equal(t, -25.63, r.Values[9][0])
+	assert.Equal(t, -25.63, r.Values[9][9])
 }
 
 func TestClientRequestCSVRoute(t *testing.T) {
@@ -94,7 +94,7 @@ func TestClientRequestCSVRoute(t *testing.T) {
 		"/now,now+1H,now+2H/t_2m:C,precip_1h:mm/postal_CH9000+postal_CH8000+postal_CH4000/csv?route=true",
 		"testdata/csv_route_query.csv",
 	)
-	crr, err := NewClient(WithBaseURL(s.URL)).RequestCSVRoute(
+	r, err := NewClient(WithBaseURL(s.URL)).RequestCSVRoute(
 		context.Background(),
 		TimeSlice{
 			TimeNow,
@@ -130,10 +130,10 @@ func TestClientRequestCSVRoute(t *testing.T) {
 		nil,
 	)
 	require.NoError(t, err)
-	assert.Equal(t, []ParameterString{"t_2m:C", "precip_1h:mm"}, crr.Parameters)
-	assert.Equal(t, 3, len(crr.Rows))
-	assert.Equal(t, 47.4239, crr.Rows[0].Lat)
-	assert.Equal(t, 9.3748, crr.Rows[0].Lon)
-	assert.Equal(t, time.Date(2018, 10, 23, 15, 47, 46, 0, time.UTC), crr.Rows[0].ValidDate)
-	assert.Equal(t, []float64{10.9, 0.02}, crr.Rows[0].Values)
+	assert.Equal(t, []ParameterString{"t_2m:C", "precip_1h:mm"}, r.Parameters)
+	require.Len(t, r.Rows, 3)
+	assert.Equal(t, 47.4239, r.Rows[0].Lat)
+	assert.Equal(t, 9.3748, r.Rows[0].Lon)
+	assert.Equal(t, time.Date(2018, 10, 23, 15, 47, 46, 0, time.UTC), r.Rows[0].ValidDate)
+	assert.Equal(t, []float64{10.9, 0.02}, r.Rows[0].Values)
 }
