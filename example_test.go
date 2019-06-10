@@ -1,3 +1,5 @@
+//+build integration
+
 package meteomatics_test
 
 import (
