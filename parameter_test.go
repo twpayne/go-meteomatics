@@ -26,9 +26,17 @@ func TestParameterString(t *testing.T) {
 		},
 		{
 			ps: Parameter{
+				Name:  ParameterTemperature,
+				Level: LevelCentimeters(-150),
+				Units: UnitsCelsius,
+			},
+			expected: "t_-150cm:C",
+		},
+		{
+			ps: Parameter{
 				Name:     ParameterTemperatureMean,
 				Level:    LevelHectopascals(500),
-				Interval: Interval(6 * time.Hour),
+				Interval: Interval6H,
 				Units:    UnitsKelvin,
 			},
 			expected: "t_mean_500hPa_6h:K",
@@ -44,10 +52,10 @@ func TestParameterString(t *testing.T) {
 		{
 			ps: Parameter{
 				Name:     ParameterPrecipitation,
-				Interval: Interval1H,
+				Interval: Interval(15 * time.Minute),
 				Units:    UnitsMillimeters,
 			},
-			expected: "precip_1h:mm",
+			expected: "precip_15min:mm",
 		},
 		{
 			ps: Parameter{

@@ -13,9 +13,5 @@ type Error struct {
 }
 
 func (e *Error) Error() string {
-	s := fmt.Sprintf("%s: %d %s", e.Request.URL, e.Response.StatusCode, http.StatusText(e.Response.StatusCode))
-	if len(e.ResponseBody) != 0 {
-		s += ": " + string(e.ResponseBody)
-	}
-	return s
+	return fmt.Sprintf("%s: %d %s", e.Request.URL, e.Response.StatusCode, http.StatusText(e.Response.StatusCode))
 }
