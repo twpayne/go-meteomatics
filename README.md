@@ -10,12 +10,13 @@ API](https://www.meteomatics.com/en/api/overview/).
 ## Key features
 
 * Idomatic Go API.
-* Support for CSV, JSON, and PNG formats.
+* Support for CSV, JSON, and PNG requests.
 * Support for all location types.
 * Support for all parameters.
 * Support for all time types.
 * Support for `context`.
 * Support for Go modules.
+* Well tested.
 
 ## Example
 
