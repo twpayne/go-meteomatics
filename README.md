@@ -10,7 +10,7 @@ API](https://www.meteomatics.com/en/api/overview/).
 ## Key features
 
 * Idomatic Go API.
-* Support for all format types.
+* Support for CSV, JSON, and PNG formats.
 * Support for all location types.
 * Support for all parameters.
 * Support for all time types.
@@ -31,7 +31,7 @@ func ExampleNewClient_simple() {
 	jr, err := client.JSONRequest(
 		context.Background(),
 		meteomatics.TimeNow,
-		meteomatics.ParameterString("t_0m:C"),
+		meteomatics.ParameterString("t_2m:C"),
 		meteomatics.Postal{
 			CountryCode: "CH",
 			ZIPCode:     "9000",

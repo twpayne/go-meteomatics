@@ -1,8 +1,10 @@
 package meteomatics_test
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"image/png"
 	"os"
 
 	"github.com/twpayne/go-meteomatics"
@@ -56,7 +58,7 @@ func ExampleClient_JSONRequest() {
 	jr, err := client.JSONRequest(
 		context.Background(),
 		meteomatics.TimeNow,
-		meteomatics.ParameterString("t_0m:C"),
+		meteomatics.ParameterString("t_2m:C"),
 		meteomatics.Postal{
 			CountryCode: "CH",
 			ZIPCode:     "9000",
@@ -82,4 +84,45 @@ func ExampleClient_JSONRequest() {
 	// 3.0
 	// t_0m:C
 	// postal_CH9000
+}
+
+func ExampleClient_PNGRequest() {
+	client := meteomatics.NewClient(
+		meteomatics.WithBasicAuth(
+			os.Getenv("METEOMATICS_USERNAME"),
+			os.Getenv("METEOMATICS_PASSWORD"),
+		),
+	)
+
+	data, err := client.PNGRequest(
+		context.Background(),
+		meteomatics.TimeNow,
+		meteomatics.ParameterString("t_2m:C"),
+		meteomatics.RectangleN{
+			Min: meteomatics.Point{
+				Lat: -90,
+				Lon: -180,
+			},
+			Max: meteomatics.Point{
+				Lat: 90,
+				Lon: 180,
+			},
+			NLon: 10,
+			NLat: 10,
+		},
+		nil,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	i, err := png.Decode(bytes.NewBuffer(data))
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(i.Bounds())
+
+	// Output:
+	// (0,0)-(10,10)
 }
