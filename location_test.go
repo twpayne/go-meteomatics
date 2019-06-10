@@ -155,7 +155,7 @@ func TestLocationString(t *testing.T) {
 			expected: "postal_DE10117",
 		},
 		{
-			ls: LocationStringSlice{
+			ls: LocationSlice{
 				Postal{
 					CountryCode: "CH",
 					ZIPCode:     "9014",

@@ -135,11 +135,11 @@ func (p Postal) LocationString() LocationString {
 	return LocationString("postal_" + p.CountryCode + p.ZIPCode)
 }
 
-// A LocationStringSlice is a slice of LocationStringers.
-type LocationStringSlice []LocationStringer
+// A LocationSlice is a slice of LocationStringers.
+type LocationSlice []LocationStringer
 
 // LocationString returns s as a LocationString.
-func (s LocationStringSlice) LocationString() LocationString {
+func (s LocationSlice) LocationString() LocationString {
 	ss := make([]string, len(s))
 	for i, ls := range s {
 		ss[i] = string(ls.LocationString())

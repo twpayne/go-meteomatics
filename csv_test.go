@@ -14,7 +14,7 @@ import (
 func TestClientCSVRequest(t *testing.T) {
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/2016-01-20T13:35:00ZP1D:PT3H/t_2m:C,relative_humidity_2m:p/47.423336,9.377225/csv" {
-			w.WriteHeader(http.StatusNotFound)
+			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
@@ -52,7 +52,7 @@ func TestClientCSVRequest(t *testing.T) {
 		nil,
 	)
 	require.NoError(t, err)
-	assert.Equal(t, []ParameterString{"t_2m:C", "relative_humidity_2m:p"}, cr.Header)
+	assert.Equal(t, []ParameterString{"t_2m:C", "relative_humidity_2m:p"}, cr.Parameters)
 	assert.Equal(t, 9, len(cr.Rows))
 	assert.Equal(t, time.Date(2016, 1, 20, 13, 35, 0, 0, time.UTC), cr.Rows[0].ValidDate)
 	assert.Equal(t, []float64{-0.829, 99.2}, cr.Rows[0].Values)
@@ -63,7 +63,7 @@ func TestClientCSVRequest(t *testing.T) {
 func TestClientCSVRegionRequest(t *testing.T) {
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/2016-12-19T12:00:00Z/t_2m:C/90,-180_-90,180:10x10/csv" {
-			w.WriteHeader(http.StatusNotFound)
+			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
@@ -113,4 +113,57 @@ func TestClientCSVRegionRequest(t *testing.T) {
 	assert.Equal(t, -15.286, crr.Values[0][9])
 	assert.Equal(t, -25.63, crr.Values[9][0])
 	assert.Equal(t, -25.63, crr.Values[9][9])
+}
+
+func TestClientCSVRouteRequest(t *testing.T) {
+	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/now,now+1H,now+2H/t_2m:C,precip_1h:mm/postal_CH9000+postal_CH8000+postal_CH4000/csv" || r.URL.RawQuery != "route=true" {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte(
+			"lat;lon;validdate;t_2m:C;precip_1h:mm\n" +
+				"47.4239;9.3748;2018-10-23T15:47:46Z;10.9;0.02\n" +
+				"47.3828;8.5307;2018-10-23T16:47:46Z;12.5;0.00\n" +
+				"47.5577;7.5936;2018-10-23T17:47:46Z;13.0;0.00\n",
+		))
+	}))
+
+	crr, err := NewClient(
+		WithBaseURL(s.URL),
+	).CSVRouteRequest(
+		context.Background(),
+		TimeSlice{
+			TimeNow,
+			NowOffset(1 * time.Hour),
+			NowOffset(2 * time.Hour),
+		},
+		ParameterSlice{
+			ParameterString("t_2m:C"),
+			ParameterString("precip_1h:mm"),
+		},
+		LocationSlice{
+			Postal{
+				CountryCode: "CH",
+				ZIPCode:     "9000",
+			},
+			Postal{
+				CountryCode: "CH",
+				ZIPCode:     "8000",
+			},
+			Postal{
+				CountryCode: "CH",
+				ZIPCode:     "4000",
+			},
+		},
+		nil,
+	)
+	require.NoError(t, err)
+	assert.Equal(t, []ParameterString{"t_2m:C", "precip_1h:mm"}, crr.Parameters)
+	assert.Equal(t, 3, len(crr.Rows))
+	assert.Equal(t, 47.4239, crr.Rows[0].Lat)
+	assert.Equal(t, 9.3748, crr.Rows[0].Lon)
+	assert.Equal(t, time.Date(2018, 10, 23, 15, 47, 46, 0, time.UTC), crr.Rows[0].ValidDate)
+	assert.Equal(t, []float64{10.9, 0.02}, crr.Rows[0].Values)
 }

@@ -26,6 +26,33 @@ func (s TimeString) TimeString() TimeString {
 	return s
 }
 
+// A NowOffset is a time relative to now.
+type NowOffset time.Duration
+
+// TimeString returns o as a TimeString.
+func (o NowOffset) TimeString() TimeString {
+	if o == 0 {
+		return TimeNow
+	}
+	sign := "+"
+	if o < 0 {
+		o = -o
+		sign = "-"
+	}
+	for _, unit := range []struct {
+		divisor time.Duration
+		suffix  string
+	}{
+		{divisor: time.Hour, suffix: "H"},
+		{divisor: time.Minute, suffix: "M"},
+	} {
+		if time.Duration(o)%unit.divisor == 0 {
+			return TimeNow + TimeString(sign+strconv.Itoa(int(time.Duration(o)/unit.divisor))+unit.suffix)
+		}
+	}
+	return TimeNow + TimeString(sign+strconv.Itoa(int(time.Duration(o)/time.Second))+"S")
+}
+
 // A TimePeriod is a time period.
 type TimePeriod struct {
 	Start    time.Time

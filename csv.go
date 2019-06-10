@@ -20,8 +20,8 @@ type CSVRow struct {
 
 // A CSVResponse is a response to a CSV request.
 type CSVResponse struct {
-	Header []ParameterString
-	Rows   []CSVRow
+	Parameters []ParameterString
+	Rows       []CSVRow
 }
 
 // A CSVRegionResponse is a response to a CSV region request.
@@ -31,6 +31,20 @@ type CSVRegionResponse struct {
 	Lats      []float64
 	Lons      []float64
 	Values    [][]float64
+}
+
+// A CSVRouteRow is a CSV route row.
+type CSVRouteRow struct {
+	Lat       float64
+	Lon       float64
+	ValidDate time.Time
+	Values    []float64
+}
+
+// A CSVRouteResponse is a response to a CSV route request.
+type CSVRouteResponse struct {
+	Parameters []ParameterString
+	Rows       []CSVRouteRow
 }
 
 // CSVRequest requests a forecast in CSV format.
@@ -54,9 +68,9 @@ func (c *Client) CSVRequest(ctx context.Context, ts TimeStringer, ps ParameterSt
 		return nil, errCSVParse
 	}
 	cols := len(record)
-	cr.Header = make([]ParameterString, 0, cols-1)
+	cr.Parameters = make([]ParameterString, 0, cols-1)
 	for i := 1; i < cols; i++ {
-		cr.Header = append(cr.Header, ParameterString(record[i]))
+		cr.Parameters = append(cr.Parameters, ParameterString(record[i]))
 	}
 
 	for s.Scan() {
@@ -145,6 +159,67 @@ func (c *Client) CSVRegionRequest(ctx context.Context, ts TimeStringer, ps Param
 			values = append(values, value)
 		}
 		crr.Values = append(crr.Values, values)
+	}
+
+	return crr, s.Err()
+}
+
+// CSVRouteRequest requests a region forecast in CSV format.
+func (c *Client) CSVRouteRequest(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, options *RequestOptions) (*CSVRouteResponse, error) {
+	var ro RequestOptions
+	if options != nil {
+		ro = *options
+	}
+	ro.Route = true
+	data, err := c.RawRequest(ctx, ts, ps, ls, FormatCSV, &ro)
+	if err != nil {
+		return nil, err
+	}
+
+	crr := &CSVRouteResponse{}
+
+	s := bufio.NewScanner(bytes.NewReader(data))
+
+	if !s.Scan() {
+		return nil, errCSVParse
+	}
+	record := strings.Split(s.Text(), ";")
+	if len(record) < 3 || record[0] != "lat" || record[1] != "lon" || record[2] != "validdate" {
+		return nil, errCSVParse
+	}
+	cols := len(record)
+	crr.Parameters = make([]ParameterString, 0, cols-3)
+	for i := 3; i < cols; i++ {
+		crr.Parameters = append(crr.Parameters, ParameterString(record[i]))
+	}
+
+	for s.Scan() {
+		record := strings.Split(s.Text(), ";")
+		if len(record) != cols {
+			return nil, errCSVParse
+		}
+		var row CSVRouteRow
+		row.Lat, err = strconv.ParseFloat(record[0], 64)
+		if err != nil {
+			return nil, err
+		}
+		row.Lon, err = strconv.ParseFloat(record[1], 64)
+		if err != nil {
+			return nil, err
+		}
+		row.ValidDate, err = time.Parse(time.RFC3339, record[2])
+		if err != nil {
+			return nil, err
+		}
+		row.Values = make([]float64, 0, cols-3)
+		for i := 3; i < cols; i++ {
+			value, err := strconv.ParseFloat(record[i], 64)
+			if err != nil {
+				return nil, err
+			}
+			row.Values = append(row.Values, value)
+		}
+		crr.Rows = append(crr.Rows, row)
 	}
 
 	return crr, s.Err()

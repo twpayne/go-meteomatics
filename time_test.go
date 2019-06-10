@@ -17,6 +17,26 @@ func TestTimeString(t *testing.T) {
 			expected: "now",
 		},
 		{
+			ts:       NowOffset(0),
+			expected: "now",
+		},
+		{
+			ts:       NowOffset(1 * time.Hour),
+			expected: "now+1H",
+		},
+		{
+			ts:       NowOffset(30 * time.Minute),
+			expected: "now+30M",
+		},
+		{
+			ts:       NowOffset(30 * time.Second),
+			expected: "now+30S",
+		},
+		{
+			ts:       NowOffset(-1 * time.Hour),
+			expected: "now-1H",
+		},
+		{
 			ts:       TimeTomorrow,
 			expected: "tomorrow",
 		},

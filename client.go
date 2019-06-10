@@ -114,20 +114,21 @@ func (o *RequestOptions) Values() url.Values {
 	if o.Source != "" {
 		v.Set("source", o.Source)
 	}
-	if o.TemporalInterpolation != "" && o.TemporalInterpolation != "best" {
+	if o.TemporalInterpolation != "" {
 		v.Set("temporal_interpolation", o.TemporalInterpolation)
 	}
-	if o.EnsembleSelect != "" && o.EnsembleSelect != "member:0" {
+	if o.EnsembleSelect != "" {
 		v.Set("ens_select", o.EnsembleSelect)
 	}
 	if o.ClusterSelect != "" {
 		v.Set("cluster_select", o.ClusterSelect)
 	}
-	if o.Timeout != 0 && o.Timeout != 300 {
-		// FIXME 30s for WMS/WFS-Queries
+	if o.Timeout != 0 {
 		v.Set("timeout", strconv.Itoa(o.Timeout))
 	}
-	// FIXME route
+	if o.Route {
+		v.Set("route", "true")
+	}
 	if len(v) == 0 {
 		return nil
 	}
