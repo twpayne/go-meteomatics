@@ -28,7 +28,7 @@ func ExampleNewClient_simple() {
 		),
 	)
 
-	cr, err := client.CSVRequest(
+	cr, err := client.RequestCSV(
 		context.Background(),
 		meteomatics.TimeSlice{
 			meteomatics.TimeNow,

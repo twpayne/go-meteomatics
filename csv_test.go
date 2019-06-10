@@ -9,13 +9,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestClientCSVRequest(t *testing.T) {
+func TestClientRequestCSV(t *testing.T) {
 	s := newTestServer(
 		t,
 		"/2016-01-20T13:35:00ZP1D:PT3H/t_2m:C,relative_humidity_2m:p/47.423336,9.377225/csv",
 		"testdata/temperature_and_relative_humidity_time_series.csv",
 	)
-	cr, err := NewClient(WithBaseURL(s.URL)).CSVRequest(
+	cr, err := NewClient(WithBaseURL(s.URL)).RequestCSV(
 		context.Background(),
 		TimePeriod{
 			Start:    time.Date(2016, 1, 20, 13, 35, 0, 0, time.UTC),
@@ -49,13 +49,13 @@ func TestClientCSVRequest(t *testing.T) {
 	assert.Equal(t, []float64{-6.088, 100}, cr.Rows[8].Values)
 }
 
-func TestClientCSVRegionRequest(t *testing.T) {
+func TestClientRequestCSVRegion(t *testing.T) {
 	s := newTestServer(
 		t,
 		"/2016-12-19T12:00:00Z/t_2m:C/90,-180_-90,180:10x10/csv",
 		"testdata/temperature_geographical_region.csv",
 	)
-	crr, err := NewClient(WithBaseURL(s.URL)).CSVRegionRequest(
+	crr, err := NewClient(WithBaseURL(s.URL)).RequestCSVRegion(
 		context.Background(),
 		Time(time.Date(2016, 12, 19, 12, 00, 0, 0, time.UTC)),
 		Parameter{
@@ -88,13 +88,13 @@ func TestClientCSVRegionRequest(t *testing.T) {
 	assert.Equal(t, -25.63, crr.Values[9][9])
 }
 
-func TestClientCSVRouteRequest(t *testing.T) {
+func TestClientRequestCSVRoute(t *testing.T) {
 	s := newTestServer(
 		t,
 		"/now,now+1H,now+2H/t_2m:C,precip_1h:mm/postal_CH9000+postal_CH8000+postal_CH4000/csv?route=true",
 		"testdata/csv_route_query.csv",
 	)
-	crr, err := NewClient(WithBaseURL(s.URL)).CSVRouteRequest(
+	crr, err := NewClient(WithBaseURL(s.URL)).RequestCSVRoute(
 		context.Background(),
 		TimeSlice{
 			TimeNow,

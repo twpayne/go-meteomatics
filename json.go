@@ -35,8 +35,8 @@ type JSONResponse struct {
 	Version       string      `json:"version"`
 }
 
-// JSONRequest requests a forecast in JSON format.
-func (c *Client) JSONRequest(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, options *RequestOptions) (*JSONResponse, error) {
+// RequestJSON requests a forecast in JSON format.
+func (c *Client) RequestJSON(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, options *RequestOptions) (*JSONResponse, error) {
 	data, err := c.Request(ctx, ts, ps, ls, FormatJSON, options)
 	if err != nil {
 		return nil, err

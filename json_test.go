@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestClientJSONRequest(t *testing.T) {
+func TestClientRequestJSON(t *testing.T) {
 	s := newTestServer(t, "/now/t_2m:C/postal_CH9000/json", "testdata/example.json")
-	jr, err := NewClient(WithBaseURL(s.URL)).JSONRequest(
+	jr, err := NewClient(WithBaseURL(s.URL)).RequestJSON(
 		context.Background(),
 		TimeNow,
 		Parameter{
@@ -40,9 +40,9 @@ func TestClientJSONRequest(t *testing.T) {
 	assert.Equal(t, 15.6, jr.Data[0].Coordinates[0].Dates[0].Value)
 }
 
-func TestClientJSONRequestError(t *testing.T) {
+func TestClientRequestJSONError(t *testing.T) {
 	s := newTestServer(t, "/now/t_2m:C/0,190/json", "testdata/out_of_range_error.json")
-	_, err := NewClient(WithBaseURL(s.URL)).JSONRequest(
+	_, err := NewClient(WithBaseURL(s.URL)).RequestJSON(
 		context.Background(),
 		TimeNow,
 		Parameter{

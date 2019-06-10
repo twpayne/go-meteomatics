@@ -11,7 +11,7 @@ import (
 	"github.com/twpayne/go-meteomatics"
 )
 
-func ExampleClient_CSVRequest() {
+func ExampleClient_RequestCSV() {
 	client := meteomatics.NewClient(
 		meteomatics.WithBasicAuth(
 			os.Getenv("METEOMATICS_USERNAME"),
@@ -19,7 +19,7 @@ func ExampleClient_CSVRequest() {
 		),
 	)
 
-	cr, err := client.CSVRequest(
+	cr, err := client.RequestCSV(
 		context.Background(),
 		meteomatics.TimeSlice{
 			meteomatics.TimeNow,
@@ -48,7 +48,7 @@ func ExampleClient_CSVRequest() {
 	}
 }
 
-func ExampleClient_CSVRegionRequest() {
+func ExampleClient_RequestCSVRegion() {
 	client := meteomatics.NewClient(
 		meteomatics.WithBasicAuth(
 			os.Getenv("METEOMATICS_USERNAME"),
@@ -56,7 +56,7 @@ func ExampleClient_CSVRegionRequest() {
 		),
 	)
 
-	crr, err := client.CSVRegionRequest(
+	crr, err := client.RequestCSVRegion(
 		context.Background(),
 		meteomatics.TimeNow,
 		meteomatics.Parameter{
@@ -93,7 +93,7 @@ func ExampleClient_CSVRegionRequest() {
 	// [-180 -140 -100 -60 -20 20 60 100 140 180]
 }
 
-func ExampleClient_JSONRequest() {
+func ExampleClient_RequestJSON() {
 	client := meteomatics.NewClient(
 		meteomatics.WithBasicAuth(
 			os.Getenv("METEOMATICS_USERNAME"),
@@ -101,7 +101,7 @@ func ExampleClient_JSONRequest() {
 		),
 	)
 
-	jr, err := client.JSONRequest(
+	jr, err := client.RequestJSON(
 		context.Background(),
 		meteomatics.TimeNow,
 		meteomatics.Parameter{
