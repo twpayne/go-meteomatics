@@ -1,0 +1,12 @@
+linters:
+  enable-all: true
+  disable:
+    - gocyclo
+    - lll
+    - maligned
+
+issues:
+  exclude-rules:
+    - linters:
+        - scopelint
+      path: "_test\\.go"

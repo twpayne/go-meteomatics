@@ -1,0 +1,22 @@
+language: go
+
+go:
+- 1.x
+
+env:
+- GO111MODULE=on
+
+install:
+- go mod download
+- make install-tools
+
+script:
+- make format
+- go mod tidy
+- git diff --exit-code
+- make test
+- make lint
+- make coverage.out
+- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN; fi
+
+sudo: false
