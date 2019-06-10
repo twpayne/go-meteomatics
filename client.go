@@ -12,7 +12,7 @@ import (
 )
 
 // DefaultBaseURL is the default base URL.
-const DefaultBaseURL = "http://api.meteomatics.com"
+const DefaultBaseURL = "https://api.meteomatics.com"
 
 // A Client is a Client.
 type Client struct {
