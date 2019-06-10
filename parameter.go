@@ -26,3 +26,28 @@ func (s ParameterSlice) ParameterString() ParameterString {
 	}
 	return ParameterString(strings.Join(ss, ","))
 }
+
+// A Parameter is a parameter.
+type Parameter struct {
+	Name     ParameterName
+	Level    LevelStringer
+	Interval IntervalStringer
+	Units    Units
+}
+
+// ParameterString returns p as a ParameterString.
+func (p Parameter) ParameterString() ParameterString {
+	ps := string(p.Name)
+	if p.Level != nil {
+		if level := p.Level.LevelString(); level != "" {
+			ps += "_" + string(level)
+		}
+	}
+	if p.Interval != nil {
+		if interval := p.Interval.IntervalString(); interval != "" {
+			ps += "_" + string(interval)
+		}
+	}
+	ps += ":" + string(p.Units)
+	return ParameterString(ps)
+}

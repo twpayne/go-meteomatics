@@ -21,7 +21,11 @@ func ExampleClient_CSVRegionRequest() {
 	crr, err := client.CSVRegionRequest(
 		context.Background(),
 		meteomatics.TimeNow,
-		meteomatics.ParameterString("t_2m:C"),
+		meteomatics.Parameter{
+			Name:  meteomatics.ParameterTemperature,
+			Level: meteomatics.LevelMeters(2),
+			Units: meteomatics.UnitsCelsius,
+		},
 		meteomatics.RectangleN{
 			Min: meteomatics.Point{
 				Lat: -90,
@@ -42,9 +46,13 @@ func ExampleClient_CSVRegionRequest() {
 	}
 
 	fmt.Println(crr.Parameter)
+	fmt.Println(crr.Lats)
+	fmt.Println(crr.Lons)
 
 	// Output:
 	// t_2m:C
+	// [90 70 50 30 10 -10 -30 -50 -70 -90]
+	// [-180 -140 -100 -60 -20 20 60 100 140 180]
 }
 
 func ExampleClient_JSONRequest() {
@@ -58,7 +66,11 @@ func ExampleClient_JSONRequest() {
 	jr, err := client.JSONRequest(
 		context.Background(),
 		meteomatics.TimeNow,
-		meteomatics.ParameterString("t_2m:C"),
+		meteomatics.Parameter{
+			Name:  meteomatics.ParameterTemperature,
+			Level: meteomatics.LevelMeters(2),
+			Units: meteomatics.UnitsCelsius,
+		},
 		meteomatics.Postal{
 			CountryCode: "CH",
 			ZIPCode:     "9000",
@@ -82,7 +94,7 @@ func ExampleClient_JSONRequest() {
 	// Output:
 	// OK
 	// 3.0
-	// t_0m:C
+	// t_2m:C
 	// postal_CH9000
 }
 
@@ -97,7 +109,11 @@ func ExampleClient_PNGRequest() {
 	data, err := client.PNGRequest(
 		context.Background(),
 		meteomatics.TimeNow,
-		meteomatics.ParameterString("t_2m:C"),
+		meteomatics.Parameter{
+			Name:  meteomatics.ParameterTemperature,
+			Level: meteomatics.LevelMeters(2),
+			Units: meteomatics.UnitsCelsius,
+		},
 		meteomatics.RectangleN{
 			Min: meteomatics.Point{
 				Lat: -90,

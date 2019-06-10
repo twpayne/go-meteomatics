@@ -1,0 +1,46 @@
+package meteomatics
+
+// A ParameterName is a parameter name.
+type ParameterName string
+
+// Parameter names.
+const (
+	ParameterTemperature              ParameterName = "t"
+	ParameterTemperatureMean          ParameterName = "t_mean"
+	ParameterTemperatureMin           ParameterName = "t_min"
+	ParameterTemperatureMax           ParameterName = "t_max"
+	ParameterRelativeHumidity         ParameterName = "relative_humidity"
+	ParameterAbsoluteHumidity         ParameterName = "absolute_humidity"
+	ParameterDewPoint                 ParameterName = "dew_point"
+	ParameterPressureMSL              ParameterName = "msl_pressure"
+	ParameterPressureSurface          ParameterName = "sfc_pressure"
+	ParameterPressure                 ParameterName = "pressure"
+	ParameterAirDensity               ParameterName = "air_density"
+	ParameterWindSpeed                ParameterName = "wind_speed"
+	ParameterWindDirection            ParameterName = "wind_direction"
+	ParameterWindSpeedU               ParameterName = "wind_speed_u"
+	ParameterWindSpeedV               ParameterName = "wind_speed_v"
+	ParameterWindGusts                ParameterName = "wind_gusts"
+	ParameterCloudCoverLow            ParameterName = "low_cloud_cover"
+	ParameterCloudCoverMedium         ParameterName = "medium_cloud_cover"
+	ParameterCloudCoverHigh           ParameterName = "high_cloud_cover"
+	ParameterCloudCoverTotal          ParameterName = "total_cloud_cover"
+	ParameterCloudCoverEffective      ParameterName = "effective_cloud_cover"
+	ParameterPrecipitation            ParameterName = "precip"
+	ParameterPrecipitationType        ParameterName = "precip_type"
+	ParameterPrecipitationProbability ParameterName = "prob_precip"
+	ParameterHail                     ParameterName = "hail"
+	ParameterEvaporation              ParameterName = "evaporation"
+	ParameterCAPE                     ParameterName = "cape"
+	ParameterLiftedIndex              ParameterName = "lifted_index"
+	ParameterThunderstormProbablility ParameterName = "prob_tstorm"
+	ParameterFrostDepth               ParameterName = "frost_depth"
+	ParameterSnowMelt                 ParameterName = "snow_melt"
+	ParameterSnowDepth                ParameterName = "snow_depth"
+	ParameterGeopotentialHeight       ParameterName = "geopotential_height"
+	ParameterRadiationClearSky        ParameterName = "clear_sky_rad"
+	ParameterEnergyClearSky           ParameterName = "clear_sky_energy"
+	ParameterRadiationDiffuse         ParameterName = "diffuse_rad"
+	ParameterRadiationDirect          ParameterName = "direct_rad"
+	ParameterRadiationGlobal          ParameterName = "global_rad"
+)

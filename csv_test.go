@@ -42,8 +42,16 @@ func TestClientCSVRequest(t *testing.T) {
 			Step:     3 * time.Hour,
 		},
 		ParameterSlice{
-			ParameterString("t_2m:C"),
-			ParameterString("relative_humidity_2m:p"),
+			Parameter{
+				Name:  ParameterTemperature,
+				Level: LevelMeters(2),
+				Units: UnitsCelsius,
+			},
+			Parameter{
+				Name:  ParameterRelativeHumidity,
+				Level: LevelMeters(2),
+				Units: UnitsPercentage,
+			},
 		},
 		Point{
 			Lat: 47.423336,
@@ -89,7 +97,11 @@ func TestClientCSVRegionRequest(t *testing.T) {
 	).CSVRegionRequest(
 		context.Background(),
 		Time(time.Date(2016, 12, 19, 12, 00, 0, 0, time.UTC)),
-		ParameterString("t_2m:C"),
+		Parameter{
+			Name:  ParameterTemperature,
+			Level: LevelMeters(2),
+			Units: UnitsCelsius,
+		},
 		RectangleN{
 			Min: Point{
 				Lat: -90,
@@ -140,8 +152,16 @@ func TestClientCSVRouteRequest(t *testing.T) {
 			NowOffset(2 * time.Hour),
 		},
 		ParameterSlice{
-			ParameterString("t_2m:C"),
-			ParameterString("precip_1h:mm"),
+			Parameter{
+				Name:  ParameterTemperature,
+				Level: LevelMeters(2),
+				Units: UnitsCelsius,
+			},
+			Parameter{
+				Name:     ParameterPrecipitation,
+				Interval: Interval(1 * time.Hour),
+				Units:    UnitsMillimeters,
+			},
 		},
 		LocationSlice{
 			Postal{
