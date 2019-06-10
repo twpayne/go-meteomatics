@@ -49,7 +49,7 @@ type CSVRouteResponse struct {
 
 // CSVRequest requests a forecast in CSV format.
 func (c *Client) CSVRequest(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, options *RequestOptions) (*CSVResponse, error) {
-	data, err := c.RawRequest(ctx, ts, ps, ls, FormatCSV, options)
+	data, err := c.Request(ctx, ts, ps, ls, FormatCSV, options)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (c *Client) CSVRequest(ctx context.Context, ts TimeStringer, ps ParameterSt
 
 // CSVRegionRequest requests a region forecast in CSV format.
 func (c *Client) CSVRegionRequest(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, options *RequestOptions) (*CSVRegionResponse, error) {
-	data, err := c.RawRequest(ctx, ts, ps, ls, FormatCSV, options)
+	data, err := c.Request(ctx, ts, ps, ls, FormatCSV, options)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func (c *Client) CSVRouteRequest(ctx context.Context, ts TimeStringer, ps Parame
 		ro = *options
 	}
 	ro.Route = true
-	data, err := c.RawRequest(ctx, ts, ps, ls, FormatCSV, &ro)
+	data, err := c.Request(ctx, ts, ps, ls, FormatCSV, &ro)
 	if err != nil {
 		return nil, err
 	}

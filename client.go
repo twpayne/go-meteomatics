@@ -69,9 +69,9 @@ func NewClient(options ...ClientOption) *Client {
 	return c
 }
 
-// RawRequest performs a raw request. It is the caller's responsibility to
+// Request performs a raw request. It is the caller's responsibility to
 // interpret the []byte returned.
-func (c *Client) RawRequest(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, fs FormatStringer, options *RequestOptions) ([]byte, error) {
+func (c *Client) Request(ctx context.Context, ts TimeStringer, ps ParameterStringer, ls LocationStringer, fs FormatStringer, options *RequestOptions) ([]byte, error) {
 	urlStr := fmt.Sprintf("%s/%s/%s/%s/%s", c.baseURL, ts.TimeString(), ps.ParameterString(), ls.LocationString(), fs.FormatString())
 	if values := options.Values(); values != nil {
 		urlStr += "?" + values.Encode()

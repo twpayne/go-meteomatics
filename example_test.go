@@ -98,7 +98,7 @@ func ExampleClient_JSONRequest() {
 	// postal_CH9000
 }
 
-func ExampleClient_PNGRequest() {
+func ExampleClient_Request_png() {
 	client := meteomatics.NewClient(
 		meteomatics.WithBasicAuth(
 			os.Getenv("METEOMATICS_USERNAME"),
@@ -106,7 +106,7 @@ func ExampleClient_PNGRequest() {
 		),
 	)
 
-	data, err := client.PNGRequest(
+	data, err := client.Request(
 		context.Background(),
 		meteomatics.TimeNow,
 		meteomatics.Parameter{
@@ -126,6 +126,7 @@ func ExampleClient_PNGRequest() {
 			NLon: 10,
 			NLat: 10,
 		},
+		meteomatics.FormatPNG,
 		nil,
 	)
 	if err != nil {
