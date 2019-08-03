@@ -64,6 +64,14 @@ func TestParameterString(t *testing.T) {
 			},
 			expected: "precip_type:idx",
 		},
+		{
+			ps: Parameter{
+				Name:  ParameterPolarVortex,
+				Level: LevelHectopascals(200),
+				Units: UnitsMetersPerSecond,
+			},
+			expected: "polar_vortex_200hPa:ms",
+		},
 	} {
 		assert.Equal(t, tc.expected, tc.ps.ParameterString())
 	}
