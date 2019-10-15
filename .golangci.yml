@@ -3,8 +3,10 @@ linters:
   disable:
     - funlen
     - gocyclo
+    - godox
     - lll
     - maligned
+    - wsl
 
 issues:
   exclude-rules:
