@@ -7,7 +7,7 @@ coverage.out:
 
 .PHONY: format
 format:
-	find . -name \*.go | xargs gofumports -w
+	find . -name \*.go | xargs $$(go env GOPATH)/bin/gofumports -w
 
 .PHONY: html-coverage
 html-coverage: coverage.out
