@@ -4,6 +4,7 @@ linters:
     - funlen
     - gocyclo
     - godox
+    - gomnd
     - lll
     - maligned
     - wsl
