@@ -1,7 +1,6 @@
 # go-meteomatics
 
-[![GoDoc](https://godoc.org/github.com/twpayne/go-meteomatics?status.svg)](https://godoc.org/github.com/twpayne/go-meteomatics)
-[![Build Status](https://travis-ci.org/twpayne/go-meteomatics.svg?branch=master)](https://travis-ci.org/twpayne/go-meteomatics)
+[![PkgGoDev](https://pkg.go.dev/badge/twpayne/go-meteomatics)](https://pkg.go.dev/twpayne/go-meteomatics)
 [![Coverage Status](https://coveralls.io/repos/github/twpayne/go-meteomatics/badge.svg)](https://coveralls.io/github/twpayne/go-meteomatics)
 
 Package `meteomatics` implements a client for the [Meteomatics

@@ -3,7 +3,7 @@ package meteomatics
 // A FormatString is a string that represents a format.
 type FormatString string
 
-// A FormatStringer is something that can behave as a format
+// A FormatStringer is something that can behave as a format.
 type FormatStringer interface {
 	ContentType() string
 	FormatString() FormatString
