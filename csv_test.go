@@ -57,7 +57,7 @@ func TestClientRequestCSVRegion(t *testing.T) {
 	)
 	r, err := NewClient(WithBaseURL(s.URL)).RequestCSVRegion(
 		context.Background(),
-		Time(time.Date(2016, 12, 19, 12, 00, 0, 0, time.UTC)),
+		Time(time.Date(2016, 12, 19, 12, 0, 0, 0, time.UTC)),
 		Parameter{
 			Name:  ParameterTemperature,
 			Level: LevelMeters(2),
